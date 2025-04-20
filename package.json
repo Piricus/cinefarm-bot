@@ -2,11 +2,10 @@
   "name": "cinefarm-bot",
   "version": "1.0.0",
   "description": "Bot do Discord para gerenciar filmes do CineFarm",
-  "main": "src/index.js",
-  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "discord.js": "^14.14.1",
