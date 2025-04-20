@@ -2,9 +2,9 @@
   "name": "cinefarm-bot",
   "version": "1.0.0",
   "description": "Discord bot for CineFarm movie nights",
-  "main": "cinefarm-bot/src/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node cinefarm-bot/src/index.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "discord.js": "^14.11.0"
