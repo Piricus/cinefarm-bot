@@ -4,12 +4,12 @@
   "description": "Discord bot for CineFarm movie nights",
   "main": "src/index.js",
   "scripts": {
-    "start": "yarn src/index.js"
+    "start": "yarn run node src/index.js"
   },
   "dependencies": {
     "discord.js": "^14.11.0"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=18.x"
   }
 }
