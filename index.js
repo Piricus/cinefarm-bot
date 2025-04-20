@@ -1,44 +1,39 @@
-require('dotenv').config();
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
-// Verificar se a estrutura de diretórios está correta
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-});
-
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.commands = new Collection();
 
-// Atualização do caminho para buscar arquivos de comando
-const commandFiles = fs.readdirSync(path.join(__dirname, 'commands')).filter(file => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, 'commands');
+if (fs.existsSync(commandsPath)) {
+  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-  const command = require(path.join(__dirname, 'commands', file));
-  client.commands.set(command.name, command);
+  for (const file of commandFiles) {
+    const command = require(path.join(commandsPath, file));
+    client.commands.set(command.name, command);
+  }
+} else {
+  console.warn('⚠️ Pasta "commands" não encontrada. Nenhum comando carregado.');
 }
 
 client.once('ready', () => {
-  console.log(`CineFarm Bot está online como ${client.user.tag}`);
+  console.log(`🤖 CineFarm Bot is online as ${client.user.tag}`);
 });
 
 client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand()) return;
+  if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
+
   if (!command) return;
 
   try {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({ content: 'Erro ao executar o comando!', ephemeral: true });
+    await interaction.reply({ content: '⚠️ There was an error executing this command!', ephemeral: true });
   }
 });
 
-// Ajuste para o token do ambiente
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.TOKEN);
